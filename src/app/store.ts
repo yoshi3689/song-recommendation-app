@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { spotifyBasicApi } from '../features/API/spotifyBasicApi'
+import requiredSearchParamsSlice from '../features/slices/requiredSearchParamsSlice'
 
 export const store = configureStore({
   reducer: {
-    [spotifyBasicApi.reducerPath]: spotifyBasicApi.reducer
+    [spotifyBasicApi.reducerPath]: spotifyBasicApi.reducer,
+    [requiredSearchParamsSlice.name]: requiredSearchParamsSlice.reducer
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(spotifyBasicApi.middleware)

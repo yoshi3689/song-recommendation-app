@@ -1,3 +1,29 @@
+import { ISeedArtist } from "./ISeedArtist";
+import { ISearchResult } from "./ISearchResult";
+
+export interface IRequiredSearchParams {
+  seedTracks: ISearchResult[];
+  seedArtists: ISeedArtist[];
+  seedGenres: string[];
+}
+
+export interface IOptionalSearchParams {
+  limit: number;
+  market: string;
+  min_acousticness?: number;
+  max_acousticness?: number;
+  target_acousticness?: number;
+  min_danceability?: number;
+  max_danceability?: number;
+  target_danceability?: number;
+  min_duration_ms?: number;
+  max_duration_ms?: number;
+  target_duration_ms?: number;
+  min_energy?: number;
+  max_energy?: number;
+  target_energy?: number;
+}
+
 export interface IRecommendationParams {
   limit?: number; // Default: 20, Range: 1 - 100
   market: string; // An ISO 3166-1 alpha-2 country code
