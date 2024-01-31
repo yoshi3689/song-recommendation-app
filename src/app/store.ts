@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { spotifyBasicApi } from '../features/API/spotifyBasicApi'
+import { spotifyBasicApi } from '../features/API/spotifyBasicApiSlice'
 import requiredSearchParamsSlice from '../features/slices/requiredSearchParamsSlice'
 import optionalSearchParamsSlice from '../features/slices/optionalSearchParamsSlice'
 

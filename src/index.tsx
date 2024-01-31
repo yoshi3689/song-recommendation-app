@@ -5,7 +5,7 @@ import App from './App'
 import { store } from './app/store'
 
 import reportWebVitals from './reportWebVitals'
-import { spotifyBasicApi } from './features/API/spotifyBasicApi'
+import { spotifyBasicApi } from './features/API/spotifyBasicApiSlice'
 
 // store.dispatch(spotifyBasicApi.endpoints.searchArtists.initiate())
 ReactDOM.render(

@@ -1,20 +1,13 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
 import { PropsWithChildren } from 'react'
-import { useLazySearchArtistsQuery } from '../../features/API/spotifyBasicApi';
 
-interface SctionProps {
+interface SectionProps {
   sectionTitle: string;
 }
 
-const Section = ({ children, sectionTitle }: PropsWithChildren<SctionProps>) => {
-  const [artistSearchTrigger, artistSearchResult, artistSearchLastPromiseInfo] = useLazySearchArtistsQuery({
-  
-  
-  });
-  const [inputValue, setInputValue] = React.useState('');
+const Section = ({ children, sectionTitle }: PropsWithChildren<SectionProps>) => {  
   return (
-    <Box component={"section"}>
+    <Box component={"section"} sx={{pt: 3}}>
       <Typography variant='h5'>{sectionTitle}</Typography>
       {children}
     </Box>

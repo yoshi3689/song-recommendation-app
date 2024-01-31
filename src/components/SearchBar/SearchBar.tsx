@@ -1,12 +1,6 @@
-import * as React from 'react';
-import TextField from '@mui/material/TextField';
-import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete';
-import CircularProgress from '@mui/material/CircularProgress';
-import { Box, Grid,  } from '@mui/material';
-import { searchTracks } from '../../features/API/searchTracks';
-import { SearchOutlined } from '@mui/icons-material';
+import Autocomplete from '@mui/material/Autocomplete';
+import { Box } from '@mui/material';
 import { ISearchResult } from '../../features/types/ISearchResult';
-import { useDispatch } from 'react-redux';
 import SearchTextArea from './SearchTextArea';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryDefinition } from '@reduxjs/toolkit/query';
@@ -14,9 +8,7 @@ import { useSearchBar } from './hooks/useSearchBar';
 import SearchResultItem from './SearchResultItem';
 
 
-interface SearchBarGenericProps<Type> {
-  // these three will replaced by resources from useQuery
-  // setOptions will no longer exist anymore, because calling a query will set the state also
+interface SearchBarProps<Type> {
   value: Type[];
   name: string;
   barLabel: string;
@@ -30,7 +22,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
   barLabel,
   setValue,
   useLazySearchQuery,
-}: SearchBarGenericProps<Type>) => {
+}: SearchBarProps<Type>) => {
 
   const {
     open,

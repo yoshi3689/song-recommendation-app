@@ -1,27 +1,13 @@
-import { Box, Grid, Typography } from '@mui/material'
-import React from 'react'
-import { searchTracks } from '../../features/API/searchTracks';
+import { Box } from '@mui/material'
 
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { ISearchResult } from '../../features/types/ISearchResult';
-import { useDispatch, useSelector } from 'react-redux';
-import { allUpdated, seedArtistsUpdated, selectSeedArtists, selectSeedGenres, selectSeedTracks } from '../../features/slices/requiredSearchParamsSlice';
-import { useLazySearchArtistsQuery, useLazySearchTracksQuery, useSearchArtistsQuery } from '../../features/API/spotifyBasicApi';
+import { useInjectSearchBars } from './hooks/useInjectSearchBars';
+import { useLazySearchArtistsQuery, useLazySearchTracksQuery } from '../../features/API/spotifyBasicApiSlice';
 
 const SearchBars = () => {
-  const dispatch = useDispatch()
-
-  const seedArtists = useSelector(selectSeedArtists)
-  const seedTracks = useSelector(selectSeedTracks)
-  // const seedGenres = useSelector(selectSeedGenres)
-
-  const handleUpdateTracks = (valueArr: (ISearchResult)[]) => {
-    dispatch(allUpdated(valueArr));
-  }
-
-  const handleUpdateArtists = (valueArr: (ISearchResult)[]) => {
-    dispatch(seedArtistsUpdated(valueArr));
-  }
+  const {seedArtists, seedTracks, handleUpdateArtists, handleUpdateTracks}
+    = useInjectSearchBars()
   return (
     <Box>
       <SearchBar<ISearchResult>

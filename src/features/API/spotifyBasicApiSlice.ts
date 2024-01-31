@@ -7,6 +7,7 @@ import { ISearchResult } from '../types/ISearchResult'
 // Define a service using a base URL and expected endpoints
 export const spotifyBasicApi = createApi({
   reducerPath: 'spotifyBasicApi',
+  tagTypes: ['Track', 'Artist', 'Recommendation'],
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   endpoints: (builder) => ({
     searchTracks: builder.query<ISearchResult[], string>({
@@ -14,9 +15,6 @@ export const spotifyBasicApi = createApi({
     }),
     searchArtists: builder.query<ISearchResult[], string>({
       query: (name) => `${baseUrl}/artists/${searchUrlSuffix}${name}`,
-    }),
-    getRecommendations: builder.query<ISearchResult[], string>({
-      query: (qs) => `${baseUrl}/recommendations?${qs}`,
     }),
   }),
 })
@@ -28,6 +26,4 @@ export const {
   useLazySearchArtistsQuery,
   useSearchTracksQuery,
   useLazySearchTracksQuery,
-  useGetRecommendationsQuery,
-  useLazyGetRecommendationsQuery
 } = spotifyBasicApi

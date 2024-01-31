@@ -5,7 +5,7 @@ import { ISearchResult } from '../../../features/types/ISearchResult';
 import { AutocompleteChangeDetails, AutocompleteChangeReason } from '@mui/material';
 
 interface IUseSearchBarArgs<Type> {
-  useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>;
+  useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>
   setValue: (valueArr: (Type)[]) => void
 }
 
@@ -42,7 +42,6 @@ export const useSearchBar = <T>({
   const debouncedSearch = debounce(search, 700)
 
   const handleChange = (event: SyntheticEvent<Element, Event>, value: (T)[], reason: AutocompleteChangeReason) => {
-    console.log(value)
     if (event.type !== "keydown") {
       setValue(value);
     }

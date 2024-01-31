@@ -4,6 +4,7 @@ export interface IRequiredSearchParams {
   seedTracks: ISearchResult[];
   seedArtists: ISearchResult[];
   seedGenres: string[];
+  qs: string;
 }
 
 export interface IOptionalSearchParams {

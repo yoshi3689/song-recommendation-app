@@ -10,7 +10,6 @@ const TrackList = ({ tracks }:ITrackListProps) => {
   return (
         <ImageList variant='masonry' sx={{width:"100%"}} >
         {tracks.map((track) => {
-          // console.log(track.album.images)
         return (
         <ImageListItem key={track.id}>
           {track.album.images[0] &&
@@ -23,14 +22,15 @@ const TrackList = ({ tracks }:ITrackListProps) => {
           <ImageListItemBar
             title={track.name}
               subtitle={`by:${(track.artists as any[]).map(a => a.name)}`}
+              sx={{flexDirection: "row"}}
               actionIcon={
                 <>
-                  {/* <IconButton
+                  <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${track.title}`}
               >
                 <Link component={"a"} href={track.externalUrls.spotify}><InfoIcon /></Link>
-              </IconButton> */}
+              </IconButton>
                   <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${track.title}`}
