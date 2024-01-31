@@ -1,7 +1,7 @@
 export interface ISearchResult {
   name: string;
   id: string;
-  images: string[];
+  images: IImage[];
   genres?: string[];
   previewUrl?: string;
   artists?: ISearchResult[];
@@ -9,5 +9,9 @@ export interface ISearchResult {
 }
 
 export interface IAlbum {
-  images: string[]
+  images: IImage[]
+}
+
+export interface IImage {
+  url: string;
 }

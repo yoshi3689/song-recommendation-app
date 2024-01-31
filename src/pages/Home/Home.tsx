@@ -1,19 +1,7 @@
-import { Box, Button, Collapse, Container, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
-import SearchBar from '../components/SearchBar/SearchBar'
-import { searchTracks } from '../features/API/searchTracks';
-import { searchArtists } from '../features/API/searchArtists';
-import { getTrackRecommendations } from '../features/API/getTrackRecommendations';
+import { Box, Container, Typography } from '@mui/material'
+import React from 'react'
 
-
-import Section from '../components/Section/Section';
-import TrackList from '../components/TrackList/TrackList';
-import DetailedSettings from '../components/DetailedSettings/DetailedSettings';
-import { ISearchResult } from '../features/types/ISearchResult';
-import SearchBarGeneric from '../components/SearchBar/SearchBar';
-import { ISeedArtist } from '../features/types/ISeedArtist';
-import { ISeedTrack } from '../features/types/ISeedTrack';
-import SearchSection from '../components/Section/SearchSection';
+import SearchSection from './RecommendationSettingsSection';
 
 const Home = () => {
   const [tracks, setTracks] = React.useState<any[]>([]);

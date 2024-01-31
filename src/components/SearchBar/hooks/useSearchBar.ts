@@ -1,10 +1,12 @@
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryDefinition } from '@reduxjs/toolkit/query';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
+import { ISearchResult } from '../../../features/types/ISearchResult';
+import { AutocompleteChangeDetails, AutocompleteChangeReason } from '@mui/material';
 
 interface IUseSearchBarArgs<Type> {
   useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>;
-  setValue: (valueArr: Type[]) => void
+  setValue: (valueArr: (Type)[]) => void
 }
 
 export const useSearchBar = <T>({
@@ -39,9 +41,10 @@ export const useSearchBar = <T>({
 
   const debouncedSearch = debounce(search, 700)
 
-  const handleChange = (event: React.SyntheticEvent<Element, Event>, newValueInArray: T[]) => {
+  const handleChange = (event: SyntheticEvent<Element, Event>, value: (T)[], reason: AutocompleteChangeReason) => {
+    console.log(value)
     if (event.type !== "keydown") {
-      setValue(newValueInArray);
+      setValue(value);
     }
   }
 

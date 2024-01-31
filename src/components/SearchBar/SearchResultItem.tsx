@@ -1,8 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react'
 import { ISearchResult } from '../../features/types/ISearchResult';
-import { ISeedTrack } from '../../features/types/ISeedTrack';
-import { ISeedArtist } from '../../features/types/ISeedArtist';
 
 interface ISearchResultItem{
   props: React.HTMLAttributes<HTMLElement>
@@ -11,25 +9,24 @@ interface ISearchResultItem{
 }
 
 const SearchResultItem = ({props, option, type}: ISearchResultItem) => {
-  const images = type.includes("artist") ? (option as ISeedArtist).images : (option as ISeedTrack).album.images;
-  const captions = type.includes("artist") ? (option as ISeedArtist).genres : (option as ISeedTrack).artists.map(a => a.name);
-  const imageToRender = ((images)[images.length - 1] as any).url
+  const images = option.images ? option.images : option.album?.images;
+  const captions = type.includes("artist") ? (option as ISearchResult).genres : option.artists?.map(a => a.name);
+  const imageToRender = images?.length
+    ? <img
+        srcSet={`${images[2].url}?w=64&h=64&fit=crop&auto=format&dpr=2 2x`}
+        src={`${images[2].url}?w=64&h=164&fit=crop&auto=format`}
+        width="64px"
+        height="64px"
+      />
+    : <span>N/A</span>
   return (
     <li {...props} key={option.id}>
       <Grid container alignItems="center" justifyContent={"space-between"}>
         <Grid item display="flex" alignItems="center" justifyContent="center" sx={{ display: 'flex', width: 64, height: 64 }}>
-          {images.length ? <img
-            srcSet={`${imageToRender}?w=64&h=64&fit=crop&auto=format&dpr=2 2x`}
-            src={`${imageToRender}?w=64&h=164&fit=crop&auto=format`}
-            width="64px"
-            height="64px"
-          />
-          : <span>N/A</span>
-        }
+          {imageToRender}
         </Grid>
         <Grid item sx={{ width: 'calc(100% - 90px)', wordWrap: 'break-word' }} >
-          <Box
-            >
+          <Box>
               {option.name}
           </Box>
           <Box display={"flex"}>

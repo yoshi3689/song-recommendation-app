@@ -20,11 +20,11 @@ interface SearchBarGenericProps<Type> {
   value: Type[];
   name: string;
   barLabel: string;
-  setValue: (valueArr: Type[]) => void
+  setValue: (valueArr: (Type)[]) => void
   useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>;
 }
 
-const SearchBar = <Type extends ISearchResult,>({
+const SearchBarGeneric = <Type extends ISearchResult,>({
   value,
   name,
   barLabel,
@@ -42,7 +42,7 @@ const SearchBar = <Type extends ISearchResult,>({
   } = useSearchBar<Type>({ useLazySearchQuery, setValue });
 
   return (
-    <Box display={"grid"} gridTemplateColumns="1fr 50px" alignItems={"center"}>
+    <Box display={"grid"} alignItems={"center"}>
       <Autocomplete
         multiple
         autoHighlight
@@ -68,4 +68,4 @@ const SearchBar = <Type extends ISearchResult,>({
   );
 }
 
-export default SearchBar;
+export default SearchBarGeneric;
