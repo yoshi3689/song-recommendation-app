@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Typography } from '@mui/material'
+import { CircularProgress, Typography } from '@mui/material'
 import { useGetRecommendationsQuery } from '../../../features/API/recommendationSlice';
 import { useSelector } from 'react-redux';
 import { selectQs } from '../../../features/slices/requiredSearchParamsSlice';

@@ -1,10 +1,10 @@
-import { Box, CircularProgress, Container, Typography } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import SearchSection from './RecommendationSettingsSection';
 import { useRenderRecommendations } from './hooks/useRenderRecommendations';
 
-
 const Home = () => {
   const renderRecommendations = useRenderRecommendations();
+  const tracks: any[] = ["1", "2"];
   return (
     <Container>
       <Box sx={{pt: 3}}>
@@ -16,5 +16,13 @@ const Home = () => {
     </Container>
   )
 }
+
+{/* <Grid container spacing={3} >
+        {tracks.map(track => (
+          <Grid xs={6} item>
+            <TrackCard track={track} />
+          </Grid>
+        ))}
+      </Grid> */}
 
 export default Home
