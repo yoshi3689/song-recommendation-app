@@ -34,7 +34,7 @@ const TrackCard = ({ track }: ITrackCard) => {
         {/* <CardMedia component="img" src={track.album.images[0] && track.album.images[0].url} sx={{width: "100%", position: "absolute", top: 0, bottom: 50}} /> */}
     </CardActionArea>
     <Box sx={{ background: 'rgba(0, 0, 0, 0.3)' }}>
-      <CardContent >
+      <CardContent sx={{pb: 0}}>
       <Typography noWrap sx={{color }} variant="body1">
         {track.name}
       </Typography>

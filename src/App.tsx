@@ -1,10 +1,4 @@
-import React from 'react'
 import Home from './pages/Home/Home'
-import { searchTracks } from './features/API/searchTracks'
-import { searchArtists } from './features/API/searchArtists'
-import { getTrackRecommendations } from './features/API/getTrackRecommendations'
-import Section from './components/Section/Section'
-import { render } from 'react-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // use default theme

@@ -4,10 +4,13 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import { ISearchResult } from '../../features/types/ISearchResult';
 import { useInjectSearchBars } from './hooks/useInjectSearchBars';
 import { useLazySearchArtistsQuery, useLazySearchTracksQuery } from '../../features/API/spotifyBasicApiSlice';
+import GenreSearch from './GenreSearch';
+
 
 const SearchBars = () => {
   const {seedArtists, seedTracks, handleUpdateArtists, handleUpdateTracks}
     = useInjectSearchBars()
+
   return (
     <Box>
       <SearchBar<ISearchResult>
@@ -25,6 +28,9 @@ const SearchBars = () => {
         setValue={handleUpdateArtists}
         useLazySearchQuery={useLazySearchArtistsQuery}
       />      
+
+      {seedArtists.length > 0 && <GenreSearch artists={seedArtists.map(a => a.name)} />}
+      
     </Box>
   )
 }

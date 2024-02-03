@@ -2,15 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import { spotifyBasicApi } from '../features/API/spotifyBasicApiSlice'
 import requiredSearchParamsSlice from '../features/slices/requiredSearchParamsSlice'
 import optionalSearchParamsSlice from '../features/slices/optionalSearchParamsSlice'
+import { openAiApiSlice } from '../features/API/openAiApiSlice'
 
 export const store = configureStore({
   reducer: {
     [spotifyBasicApi.reducerPath]: spotifyBasicApi.reducer,
     [requiredSearchParamsSlice.name]: requiredSearchParamsSlice.reducer,
-    [optionalSearchParamsSlice.name]: optionalSearchParamsSlice.reducer
+    [optionalSearchParamsSlice.name]: optionalSearchParamsSlice.reducer,
+    [openAiApiSlice.reducerPath]: openAiApiSlice.reducer,
   },
 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(spotifyBasicApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(spotifyBasicApi.middleware).concat(openAiApiSlice.middleware)
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

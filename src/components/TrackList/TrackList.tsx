@@ -9,7 +9,7 @@ const TrackList = ({ tracks }:ITrackListProps) => {
   return (
       <Grid container spacing={3} >
         {tracks.map(track => (
-          <Grid xs={6} sm={4} md={3} lg={2} item>
+          <Grid xs={6} sm={4} md={3} item key={track.id}>
             <TrackCard track={track} />
           </Grid>
         ))}

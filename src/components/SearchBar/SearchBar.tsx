@@ -1,5 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ISearchResult } from '../../features/types/ISearchResult';
 import SearchTextArea from './SearchTextArea';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
@@ -23,7 +23,6 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
   setValue,
   useLazySearchQuery,
 }: SearchBarProps<Type>) => {
-
   const {
     open,
     setOpen,
@@ -35,7 +34,6 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
 
   return (
     <Box display={"grid"} alignItems={"center"}>
-      {typeof value !== "string" ?
         <Autocomplete<Type, true, false, true>
           multiple
           autoHighlight
@@ -53,34 +51,9 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
           onInputChange={handleInputChange}
           loading={loading}
           options={options}
-          renderOption={(props, option) => <SearchResultItem props={props} option={option} type={name} />}
+          renderOption={(props, option) => <SearchResultItem props={props} option={option} key={option.id} type={name} />}
           renderInput={(params) => <SearchTextArea params={params} label={barLabel} loading={loading} />}
         />
-        :
-        <Box>
-          String type autocomplete instance should be rendered
-        </Box>
-      //   <Autocomplete<string, true, false, true>
-      //   multiple
-      //   autoHighlight
-      //   sx={{marginBlock: 2}}
-      //   clearOnBlur={false}
-      //   id={name}
-      //   open={open}
-      //   value={value}
-      //   onOpen={() => setOpen(true)}
-      //   onClose={() => setOpen(false)}
-      //   filterOptions={(x) => x}
-      //   isOptionEqualToValue={(option, value) => option.id === value.id}
-      //   getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
-      //   onChange={handleChange}
-      //   onInputChange={handleInputChange}
-      //   loading={loading}
-      //   options={options}
-      //   renderOption={(props, option) => <SearchResultItem props={props} option={option} type={name} />}
-      //   renderInput={(params) => <SearchTextArea params={params} label={barLabel} loading={loading} />}
-      // />
-      }
     </Box>
   );
 }

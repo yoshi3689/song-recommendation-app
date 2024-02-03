@@ -1,14 +1,22 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Button, Container, Typography } from '@mui/material'
 import SearchSection from './RecommendationSettingsSection';
 import { useRenderRecommendations } from './hooks/useRenderRecommendations';
+import AuthRequired from './AuthRequired';
+import Login from '../../components/Login/Login';
 
 const Home = () => {
   const renderRecommendations = useRenderRecommendations();
-  const tracks: any[] = ["1", "2"];
+  
   return (
     <Container>
       <Box sx={{pt: 3}}>
-        <Typography variant='h3' gutterBottom>GrooveGuru</Typography>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Typography variant='h3'>GrooveGuru</Typography>
+          <Box>
+            <Login />
+            <AuthRequired />
+          </Box>
+        </Box>
       <Typography variant='subtitle2' gutterBottom>Unleash the DJ in You with Personalized Recommendations powered by Spotify</Typography>
       </Box>
       <SearchSection />
@@ -16,13 +24,5 @@ const Home = () => {
     </Container>
   )
 }
-
-{/* <Grid container spacing={3} >
-        {tracks.map(track => (
-          <Grid xs={6} item>
-            <TrackCard track={track} />
-          </Grid>
-        ))}
-      </Grid> */}
 
 export default Home
