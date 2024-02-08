@@ -24,6 +24,7 @@ export const useCompleteSettings = () => {
     if ('data' in res) {
       // Extract and return the data
       dispatch(seedGenresUpdated(res.data));
+      dispatch(seedGenresErrorUpdated(""));
     } else {
       let message: string = ""
       if ('status' in res.error) {
@@ -34,7 +35,7 @@ export const useCompleteSettings = () => {
         message = "SerializedError:" + res.error.message;
       }
       console.error(message);
-      dispatch(seedGenresErrorUpdated(message + "Need to manually select genre tags"))
+      dispatch(seedGenresErrorUpdated("Genre detection failed. Please manually select genre tags"))
       return;
     }
   }
@@ -42,10 +43,12 @@ export const useCompleteSettings = () => {
     // cehck if track and artists are no empty
     const trackUnselected = seedTracks.length === 0
     const artistUnselected = seedArtists.length === 0
-    if (trackUnselected) dispatch(seedTracksErrorUpdated("Enter track/song name!"))
-    if (artistUnselected) dispatch(seedArtistsErrorUpdated("Enter artist name!"))
-    if (trackUnselected || artistUnselected) return;
-    if (seedGenres.length === 0) await discoverGenreTags();
+    dispatch(seedTracksErrorUpdated(trackUnselected ? "Need at least 1 track/song name!" : ""))
+    dispatch(seedArtistsErrorUpdated(artistUnselected ? "Need at least 1 artist name!" : ""))
+    if (trackUnselected || artistUnselected) return
+
+    if (seedGenres.length === 0) await discoverGenreTags() 
+    else dispatch(seedGenresErrorUpdated(""))
 
     const newQs = generateQs(
       seedTracks.map(t => t.id),

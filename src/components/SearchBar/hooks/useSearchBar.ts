@@ -1,8 +1,8 @@
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryDefinition } from '@reduxjs/toolkit/query';
 import React, { SyntheticEvent } from 'react';
-import { ISearchResult } from '../../../features/types/ISearchResult';
-import { AutocompleteChangeDetails, AutocompleteChangeReason } from '@mui/material';
+// import { ISearchResult } from '../../../features/types/ISearchResult';
+import { AutocompleteChangeReason } from '@mui/material';
 
 interface IUseSearchBarArgs<Type> {
   useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>
@@ -17,7 +17,7 @@ export const useSearchBar = <T>({
   const [options, setOptions] = React.useState<readonly T[]>([]);
   const [inputValue, setInputValue] = React.useState('');
   const [lazySearchTrigger, lazySearchRes] = useLazySearchQuery();
-  const loading: boolean = lazySearchRes.isLoading && inputValue !== "" && open
+  const loading: boolean = lazySearchRes.isFetching && inputValue !== "" && open
 
   // https://medium.com/@cheahwen1997/debouncing-search-selection-with-lazy-loading-in-reactjs-mui-c725d4e3e1bc
   const debounceTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);

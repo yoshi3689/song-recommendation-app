@@ -36,7 +36,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
 
   return (
     <Box display={"grid"} alignItems={"center"}>
-      {error && <Alert severity="error">{ error }</Alert>}
+      {error && <Alert sx={{mt: 2}} severity="error">{ error }</Alert>}
         <Autocomplete<Type, true, false, true>
           multiple
           autoHighlight
@@ -55,7 +55,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
           loading={loading}
           options={options}
           renderOption={(props, option) => <SearchResultItem props={props} option={option} key={option.id} type={name} />}
-          renderInput={(params) => <SearchTextArea params={params} label={barLabel} loading={loading} />}
+          renderInput={(params) => <SearchTextArea isError={error?true:false} params={params} label={barLabel} loading={loading} />}
         />
     </Box>
   );

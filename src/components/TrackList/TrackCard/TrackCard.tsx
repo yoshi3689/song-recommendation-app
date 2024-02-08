@@ -1,8 +1,5 @@
 import React from 'react'
-import { Box, Button, Container,Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, Typography, createTheme } from '@mui/material'
-import HeadsetIcon from '@mui/icons-material/Headset';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { Box, Button, Container,Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, Typography, createTheme, Tooltip } from '@mui/material'
 import { BookmarkOutlined, ExitToApp, PlayCircle } from '@mui/icons-material';
 
 interface ITrackCard {
@@ -22,8 +19,10 @@ const TrackCard = ({ track }: ITrackCard) => {
     <Card
       component="div"    
       sx={{
-        backgroundImage: `url(${track.album.images[0] && track.album.images[0].url})`
-        ,backgroundSize: 'cover'
+        backgroundImage: `url(${track.album.images[0] && track.album.images[0].url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       }}
       key={track.id}
   >
@@ -44,17 +43,21 @@ const TrackCard = ({ track }: ITrackCard) => {
     </CardContent>
     <CardActions sx={{display:"flex", justifyContent:"space-between", }} color='#efefef'>
       <Box>
-        <IconButton sx={{color}} onClick={() => onLinkClicked(track.previewUrl)} size='small' aria-label="Play Now">
-          <PlayCircle />
-        </IconButton>
-        <IconButton sx={{color}} onClick={() => onLinkClicked(track.externalUrls.spotify)} size='small' aria-label="Go to Spotify">
-          <ExitToApp />
-        </IconButton>
+        <Tooltip title={"play short clip"}>
+          <IconButton sx={{color}} onClick={() => onLinkClicked(track.previewUrl)} size='small' aria-label="Play Now">
+            <PlayCircle />
+          </IconButton>      
+        </Tooltip>
+        <Tooltip title={"listen on spotify"}>
+          <IconButton sx={{color}} onClick={() => onLinkClicked(track.externalUrls.spotify)} size='small' aria-label="Go to Spotify">
+            <ExitToApp />
+          </IconButton>
+        </Tooltip>    
       </Box>
       <Box>
-        <IconButton sx={{color}} size='small' aria-label="save">
+        {/* <IconButton sx={{color}} size='small' aria-label="save">
           <BookmarkOutlined />
-        </IconButton>    
+        </IconButton>     */}
       </Box>
     </CardActions>
     </Box>  

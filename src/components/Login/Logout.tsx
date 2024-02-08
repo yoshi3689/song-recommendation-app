@@ -13,7 +13,7 @@ const Logout = ({ username, imgUrl }: ILogout) => {
     console.log("Logging you out")
   }
   return (
-    <Tooltip title="Log Out" placement='top'>
+    <Tooltip title={`Connected to ${username}`} placement='top'>
       <Button variant="contained" onClick={handleLogout}>
       <Box display="flex" justifyContent="center" alignItems="center">
         <Typography sx={{ mr: 2 }} color="white">{username }</Typography>

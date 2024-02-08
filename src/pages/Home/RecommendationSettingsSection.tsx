@@ -1,12 +1,13 @@
 import Section from '../../components/Section/Section'
 import SearchBars from './SearchBars';
 import SettingsSearchDetail from './RecommendationCustomSettings';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { useCompleteSettings } from './hooks/useCompleteSettings';
 import { useGetRecommendationsQuery } from '../../features/API/recommendationSlice';
 import { selectQs } from '../../features/slices/requiredSearchParamsSlice';
 import { useSelector } from 'react-redux';
 import { IPlaylist, useCreatePlaylistMutation, useGetProfileQuery } from '../../features/API/spotifyAdvancedApiSlice';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
 
 
@@ -26,17 +27,21 @@ const RecommendationSettingsSection = () => {
   }
   
   return (
-    <Section sectionTitle='Preferences'>
+    <Section sectionTitle='Preferences' dialogMessage='This is where you customize settings for song recommendations. Are you a music nerd who knows what you want? You can set numeric parameters to have more control over the result in DETAILED SETTINGS'>
       <SearchBars />
       <SettingsSearchDetail />
       <Box>
-        <Button sx={{mr: 2}} variant="contained" onClick={handleFetchRecommndations}>
-          <Typography color="white">Get Recs!</Typography>
-        </Button>
-        {data && 
-          <Button variant="contained" onClick={handleSaveAsPlaylist}>
-            <Typography color="white">Save As Playlist</Typography>
+        <Tooltip title="Get song recommendations" placement='top'>
+          <Button sx={{mr: 2}} variant="contained" onClick={handleFetchRecommndations}>
+            <Typography color="white">Get Recs!</Typography>
           </Button>
+        </Tooltip>
+        {data && 
+          <Tooltip title="Save recommendations to your account" placement='top'>
+            <Button variant="contained" onClick={handleSaveAsPlaylist}>
+              <Typography color="white">Save As Playlist</Typography>
+            </Button>
+          </Tooltip>
         }
 
       </Box>

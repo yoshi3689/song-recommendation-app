@@ -6,24 +6,25 @@ interface ISearchTextAresProps {
   params: AutocompleteRenderInputParams
   label: string
   loading: boolean
-
+  isError: boolean
 }
 
-const SearchTextArea = ( {params, label, loading}: ISearchTextAresProps ) => {
+const SearchTextArea = ( {params, label, loading, isError}: ISearchTextAresProps ) => {
   return (
-        <TextField
-          {...params}
-          label={label}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
+    <TextField
+      {...params}
+      error={isError}
+      label={label}
+      InputProps={{
+        ...params.InputProps,
+        endAdornment: (
+          <React.Fragment>
+            {loading ? <CircularProgress color="inherit" size={20} /> : null}
+            {params.InputProps.endAdornment}
+          </React.Fragment>
+        ),
+      }}
+    />
       )
 }
 

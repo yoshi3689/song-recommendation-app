@@ -35,7 +35,7 @@ const SearchBars = () => {
         useLazySearchQuery={useLazySearchArtistsQuery}
       />      
 
-      {seedGenresError && <GenreSearch artists={seedArtists.map(a => a.name)} />}
+      {seedGenresError && <GenreSearch artists={seedArtists.map(a => a.name)} error={seedGenresError} />}
       
     </Box>
   )
