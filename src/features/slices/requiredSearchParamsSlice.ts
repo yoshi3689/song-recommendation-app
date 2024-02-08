@@ -24,16 +24,13 @@ const requiredSearchParamsSlice = createSlice({
     seedGenresUpdated(state, { payload }: PayloadAction<string[]>) {
       state.seedGenres = payload.map(g => g).slice(0, 5);
     },
-    qsUpdated(state, { payload }: PayloadAction<string>) {
-      state.qs = payload
-    },
     allUpdated(state, { payload }: PayloadAction<ISearchResult[]>) {
       state.seedTracks = payload.map(t => { return { ...t, images: t.album?.images ?? [] } }).slice(0, 5);
       state.seedArtists = payload.map(t => t.artists?.map(a => a) ?? [])
         .flat().slice(0, 5);
-      
-      // TODO: get genres by making API request on each artist retrieved from a track
-      // state.seedGenres = payload.map(t => t.artists.map(a => a.genres.map(g => g))).flat(2).slice(0, 5)
+    },
+    qsUpdated(state, { payload }: PayloadAction<string>) {
+      state.qs = payload;
     },
   },
   selectors: {

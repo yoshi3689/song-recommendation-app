@@ -23,7 +23,6 @@ interface ISingleSlider {
 
 const SingleSlider = ({ name, label ,iniitalValue, min, max, step, update }: ISingleSlider) => {
   const handleChange = (event: Event, value: number | number[], activeThumb: number): void => {
-    console.log(value, activeThumb)
     dispatch(update({ [name]:value }));
   }
   const dispatch = useDispatch();

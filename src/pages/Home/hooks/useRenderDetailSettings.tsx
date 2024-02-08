@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SingleSlider from "../../../components/Slider/SingleSlider";
-import { durationUpdated, initialState, optionalSearchParamsUpdated, selectAll } from "../../../features/slices/optionalSearchParamsSlice";
+import { durationUpdated, initialState, optionalSearchParamsUpdated } from "../../../features/slices/optionalSearchParamsSlice";
 
 export const useRenderDetailSettings = () => {
   const [open, setOpen] = useState<boolean>(false);

@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { qsUpdated, selectSeedArtists, selectSeedGenres, selectSeedTracks } from '../../../features/slices/requiredSearchParamsSlice';
+import { seedGenresUpdated, selectSeedArtists, selectSeedGenres, selectSeedTracks, qsUpdated } from '../../../features/slices/requiredSearchParamsSlice';
 import { selectAll } from '../../../features/slices/optionalSearchParamsSlice';
 import { generateQs } from '../../../features/utils/generateQs';
+import { generateChatCompletionprompt } from '../../../features/utils/generateChatCompletionprompt';
+import { useFetchChatCompletionsMutation } from '../../../features/API/openAiApiSlice';
+import { seedArtistsErrorUpdated, seedGenresErrorUpdated, seedTracksErrorUpdated } from '../../../features/slices/requiredSearchParamsErrorSlice';
+import { APIError } from 'openai/error';
 
 export const useCompleteSettings = () => {
   const dispatch = useDispatch()
@@ -9,14 +13,47 @@ export const useCompleteSettings = () => {
   const seedArtists = useSelector(selectSeedArtists)
   const seedGenres = useSelector(selectSeedGenres)
   const customSettings = useSelector(selectAll);
+  const [fetchChatCompletions] = useFetchChatCompletionsMutation();
+  const discoverGenreTags= async () => {
+    // generate input prompt for the search completion AI 
+    const promptInput = generateChatCompletionprompt(seedArtists.map(a => a.name));
 
-  const handleClick = () => {
+    // use the mutation function to get the tags
+    const res = await fetchChatCompletions(promptInput);
+    // Check if the response is successful
+    if ('data' in res) {
+      // Extract and return the data
+      dispatch(seedGenresUpdated(res.data));
+    } else {
+      let message: string = ""
+      if ('status' in res.error) {
+        // Handle FetchBaseQueryError
+        message = 'FetchBaseQueryError:' + (res.error.data as APIError).message
+      } else {
+        // Handle SerializedError
+        message = "SerializedError:" + res.error.message;
+      }
+      console.error(message);
+      dispatch(seedGenresErrorUpdated(message + "Need to manually select genre tags"))
+      return;
+    }
+  }
+  const handleClick = async () => {
+    // cehck if track and artists are no empty
+    const trackUnselected = seedTracks.length === 0
+    const artistUnselected = seedArtists.length === 0
+    if (trackUnselected) dispatch(seedTracksErrorUpdated("Enter track/song name!"))
+    if (artistUnselected) dispatch(seedArtistsErrorUpdated("Enter artist name!"))
+    if (trackUnselected || artistUnselected) return;
+    if (seedGenres.length === 0) await discoverGenreTags();
+
     const newQs = generateQs(
       seedTracks.map(t => t.id),
       seedArtists.map(a => a.id),
       seedGenres,
       customSettings
     )
+    
     dispatch(qsUpdated(newQs));
   }
 

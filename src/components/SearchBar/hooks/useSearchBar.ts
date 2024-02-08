@@ -44,7 +44,7 @@ export const useSearchBar = <T>({
   const handleChange = (event: SyntheticEvent<Element, Event>, value: (T | string)[], reason: AutocompleteChangeReason) => {
     // if string type member is not found in the array
     let isCustomType: boolean = value.find(v => typeof v === "string") === undefined
-    if (event.type !== "keydown" && isCustomType && reason !== "removeOption") {
+    if (event.type !== "keydown" && isCustomType) {
       setValue(value as T[]);
     }
   }

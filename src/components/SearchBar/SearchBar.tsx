@@ -1,5 +1,5 @@
 import Autocomplete from '@mui/material/Autocomplete';
-import { Box, Typography } from '@mui/material';
+import { Alert, Box, Typography } from '@mui/material';
 import { ISearchResult } from '../../features/types/ISearchResult';
 import SearchTextArea from './SearchTextArea';
 import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
@@ -12,6 +12,7 @@ interface SearchBarProps<Type> {
   value: Type[];
   name: string;
   barLabel: string;
+  error: string;
   setValue: (valueArr: (Type)[]) => void
   useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>;
 }
@@ -20,6 +21,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
   value,
   name,
   barLabel,
+  error,
   setValue,
   useLazySearchQuery,
 }: SearchBarProps<Type>) => {
@@ -34,6 +36,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
 
   return (
     <Box display={"grid"} alignItems={"center"}>
+      {error && <Alert severity="error">{ error }</Alert>}
         <Autocomplete<Type, true, false, true>
           multiple
           autoHighlight
