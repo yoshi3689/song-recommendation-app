@@ -4,7 +4,7 @@ const Login = () => {
   const handleLoginClick = async (e: any) => {
     try {
       e.preventDefault()
-      window.open(process.env.REACT_APP_SPOTIFY_API_URL_DEV + "/api/SpotifyAuth/login", "_self")
+      window.open(process.env.REACT_APP_API_SPOTIFY_AUTH + "/login", "_self")
     } catch (error) {
       console.error(error);
     }

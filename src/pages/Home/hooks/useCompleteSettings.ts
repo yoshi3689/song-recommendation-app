@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { seedGenresUpdated, selectSeedArtists, selectSeedGenres, selectSeedTracks, qsUpdated } from '../../../features/slices/requiredSearchParamsSlice';
 import { selectAll } from '../../../features/slices/optionalSearchParamsSlice';
 import { generateQs } from '../../../features/utils/generateQs';
-import { generateChatCompletionprompt } from '../../../features/utils/generateChatCompletionprompt';
+
 import { useFetchChatCompletionsMutation } from '../../../features/API/openAiApiSlice';
 import { seedArtistsErrorUpdated, seedGenresErrorUpdated, seedTracksErrorUpdated } from '../../../features/slices/requiredSearchParamsErrorSlice';
 import { APIError } from 'openai/error';
@@ -15,11 +15,8 @@ export const useCompleteSettings = () => {
   const customSettings = useSelector(selectAll);
   const [fetchChatCompletions] = useFetchChatCompletionsMutation();
   const discoverGenreTags= async () => {
-    // generate input prompt for the search completion AI 
-    const promptInput = generateChatCompletionprompt(seedArtists.map(a => a.name));
-
     // use the mutation function to get the tags
-    const res = await fetchChatCompletions(promptInput);
+    const res = await fetchChatCompletions(seedArtists.map(a => a.name));
     // Check if the response is successful
     if ('data' in res) {
       // Extract and return the data
@@ -49,14 +46,14 @@ export const useCompleteSettings = () => {
 
     if (seedGenres.length === 0) await discoverGenreTags() 
     else dispatch(seedGenresErrorUpdated(""))
-
+    console.log(seedGenres)
     const newQs = generateQs(
       seedTracks.map(t => t.id),
       seedArtists.map(a => a.id),
       seedGenres,
       customSettings
     )
-    
+    console.log(newQs)
     dispatch(qsUpdated(newQs));
   }
 

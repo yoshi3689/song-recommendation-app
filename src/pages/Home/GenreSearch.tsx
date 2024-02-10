@@ -16,7 +16,6 @@ const GenreSearch = ({ artists, error }: IGenreSearch) => {
   const [value, setValue] = useState<string[]>([]);
   const [inputValue, setInputValue] = React.useState('');
   const dispatch = useDispatch()
-  // const [fetchChatCompletions, { data }] = useFetchChatCompletionsMutation();
 
   const handleChange = (event: SyntheticEvent<Element, Event>, value: (string)[]) => {
     if (event.type !== "keydown") {

@@ -1,17 +1,13 @@
-import React from 'react'
 import { Button, Avatar, Box, Typography, Tooltip } from '@mui/material'
+import { useLogout } from './hooks/useLogout';
 
 interface ILogout {
   username: string;
   imgUrl: string;
 }
 const Logout = ({ username, imgUrl }: ILogout) => {
-  // when the button is pressed
-    // clear the cookie
-  // reset the API data cache
-  const handleLogout = () => {
-    console.log("Logging you out")
-  }
+  const handleLogout = useLogout();
+  // render dialogue when logout is clicked to confirm the disconnection
   return (
     <Tooltip title={`Connected to ${username}`} placement='top'>
       <Button variant="contained" onClick={handleLogout}>
