@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { IImage } from '../types/ISearchResult'
+import { isDevelopment } from '../utils/isDevelopment'
 
 interface IExternalUrl {
   spotify: string
@@ -33,14 +34,17 @@ export interface IPlaylist {
 }
 
 
-const baseUrl = process.env.REACT_APP_API_SPOTIFY_AUTH
+const baseUrl = isDevelopment() ? "http://localhost:5000/api/SpotifyAuth" : process.env.REACT_APP_API_SPOTIFY_AUTH
 // Define a service using a base URL and expected endpoints
 export const spotifyAdvancedApi = createApi({
   reducerPath: 'spotifyAdvancedApi',
   tagTypes: ['Profile', 'Playlist'],
   baseQuery: fetchBaseQuery({
     baseUrl,
-    credentials: 'include'
+    prepareHeaders(headers) {
+      return headers
+    },
+    credentials: 'include'    
   }),
   endpoints: (builder) => ({
     getProfile: builder.query<ISpotifyUser, void>({
