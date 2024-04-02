@@ -10,7 +10,11 @@ import { selectSeedArtistsError, selectSeedGenresError, selectSeedTracksError } 
 import GenreSearch from './GenreSearch';
 
 const SearchBars = () => {
-  const { seedArtists, seedTracks, handleUpdateArtists, handleUpdateTracks }
+  const { seedArtists, seedTracks,
+    handleUpdateArtists, handleUpdateTracks,
+    handleCloseArtistNotification,
+    handleCloseTrackNotification
+  }
     = useInjectSearchBars();
   const seedTracksError = useSelector(selectSeedTracksError)
   const seedArtistsError = useSelector(selectSeedArtistsError)
@@ -19,6 +23,7 @@ const SearchBars = () => {
     <Box>
       <SearchBar<ISearchResult>
         value={seedTracks}
+        onNotificationClose={handleCloseTrackNotification}
         name={"track-search"}
         barLabel={"Track/Song Name"}
         setValue={handleUpdateTracks}
@@ -28,6 +33,7 @@ const SearchBars = () => {
 
       <SearchBar<ISearchResult>
         value={seedArtists}
+        onNotificationClose={handleCloseArtistNotification}
         name={"artist-search"}
         barLabel={"Artist Name"}
         setValue={handleUpdateArtists}

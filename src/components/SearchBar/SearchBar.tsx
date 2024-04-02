@@ -6,6 +6,7 @@ import { UseLazyQuery } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta, QueryDefinition } from '@reduxjs/toolkit/query';
 import { useSearchBar } from './hooks/useSearchBar';
 import SearchResultItem from './SearchResultItem';
+import NotificationPopup from '../../components/Notification/Notification';
 
 
 interface SearchBarProps<Type> {
@@ -13,6 +14,7 @@ interface SearchBarProps<Type> {
   name: string;
   barLabel: string;
   error: string;
+  onNotificationClose: () => void
   setValue: (valueArr: (Type)[]) => void
   useLazySearchQuery: UseLazyQuery<QueryDefinition<string, BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>, never, Type[], "spotifyBasicApi">>;
 }
@@ -22,6 +24,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
   name,
   barLabel,
   error,
+  onNotificationClose,
   setValue,
   useLazySearchQuery,
 }: SearchBarProps<Type>) => {
@@ -36,7 +39,7 @@ const SearchBarGeneric = <Type extends ISearchResult,>({
 
   return (
     <Box display={"grid"} alignItems={"center"}>
-      {error && <Alert sx={{mt: 2}} severity="error">{ error }</Alert>}
+      {error && <NotificationPopup message={error} severity='error' onClose={onNotificationClose} />}
         <Autocomplete<Type, true, false, true>
           multiple
           autoHighlight

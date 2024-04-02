@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IImage } from '../types/ISearchResult'
+import { IImage, ISearchResult } from '../types/ISearchResult'
 import { isDevelopment } from '../utils/isDevelopment'
+import { nanoid } from '@reduxjs/toolkit'
 
 interface IExternalUrl {
   spotify: string
@@ -11,7 +12,7 @@ interface IFollowers {
   total: number
 }
 
-interface ISpotifyUser {
+export interface ISpotifyUser {
   country?: string
   displayName: string
   email?: string
@@ -25,6 +26,11 @@ interface ISpotifyUser {
   uri: string
 }
 
+export interface IUser {
+  profile: ISpotifyUser
+  recentItems: ISearchResult
+}
+
 export interface IPlaylist {
   name?: string
   public?: boolean
@@ -32,7 +38,6 @@ export interface IPlaylist {
   uris: string[]
   userId: string
 }
-
 
 const baseUrl = isDevelopment() ? "http://localhost:5000/api/SpotifyAuth" : process.env.REACT_APP_API_SPOTIFY_AUTH
 // Define a service using a base URL and expected endpoints
@@ -47,7 +52,7 @@ export const spotifyAdvancedApi = createApi({
     credentials: 'include'    
   }),
   endpoints: (builder) => ({
-    getProfile: builder.query<ISpotifyUser, void>({
+    getProfile: builder.query<IUser, void>({
       query: () => `${baseUrl}/user`,
       providesTags: ['Profile']
     }),
@@ -59,9 +64,10 @@ export const spotifyAdvancedApi = createApi({
         url: `/playlist/create`,
         method: "POST",
         body: {
-          ...pl,
-          name: "name",
+          name: "playlist: " + nanoid(8),
           description: "created by GrroveGuru",
+          uris: pl.uris,
+          userId: pl.userId,
           public: true
         } as IPlaylist,
       }),

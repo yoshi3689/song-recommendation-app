@@ -9,25 +9,29 @@ const initialState = {
   seedGenres: [],
   qs: ""
 } as IRequiredSearchParams
-
+const paramCountLimit = 5
 const requiredSearchParamsSlice = createSlice({
   name: 'requiredSearchParams',
   initialState,
   reducers: {
     seedTracksUpdated(state, { payload }: PayloadAction<ISearchResult[]>) {
-      state.seedTracks = payload.map((t) => t).slice(0, 5);
+      state.seedTracks = payload.map((t) => t).slice(0, 2);
     },
     seedArtistsUpdated(state, { payload }: PayloadAction<ISearchResult[]>) {
-      state.seedArtists = payload.map((a) => a).slice(0, 5);
-      state.seedGenres = payload.map((a) => a.genres?.map(g => g) ?? []).flat().slice(0, 5);
+      state.seedArtists = payload.map((a) => a).slice(0, 2);
+      const processed = [...payload.map((a) => a.genres?.map(g => g.replaceAll(" ", "-")) ?? []).flat(), ...state.seedGenres]
+        .slice(0, paramCountLimit - state.seedTracks.length - state.seedArtists.length)
+      state.seedGenres = processed
     },
     seedGenresUpdated(state, { payload }: PayloadAction<string[]>) {
-      state.seedGenres = payload.map(g => g).slice(0, 5);
+      const processed = [...payload, ...state.seedGenres.map(g => g.replaceAll(" ", "-"))]
+        .slice(0, paramCountLimit - state.seedTracks.length - state.seedArtists.length)
+      state.seedGenres = processed;
     },
     allUpdated(state, { payload }: PayloadAction<ISearchResult[]>) {
-      state.seedTracks = payload.map(t => { return { ...t, images: t.album?.images ?? [] } }).slice(0, 5);
+      state.seedTracks = payload.map(t => { return { ...t, images: t.album?.images ?? [] } }).slice(0, 2);
       state.seedArtists = payload.map(t => t.artists?.map(a => a) ?? [])
-        .flat().slice(0, 5);
+        .flat().slice(0, 2);
     },
     qsUpdated(state, { payload }: PayloadAction<string>) {
       state.qs = payload;

@@ -2,6 +2,7 @@ import { IOptionalSearchParams } from "../types/IRecommendationParams";
 
 export const generateQs = (tracks: string[], artists: string[], genres: string[], optionalParams: IOptionalSearchParams) => {
   const qsConnector: string = "%2C"
+  console.log(genres.join(qsConnector))
   const qs: Record<string, any> = {
     limit: optionalParams.limit ?? 10,
     market: "ES",

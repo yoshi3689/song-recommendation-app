@@ -1,12 +1,10 @@
 import Home from './pages/Home/Home'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-// use default theme
-// const theme = createTheme();
-
 // Or Create your Own theme:
 const theme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
       main: '#1DB954'
     }

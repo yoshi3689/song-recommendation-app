@@ -1,14 +1,11 @@
 import { CircularProgress, Typography } from '@mui/material'
-import { useGetRecommendationsQuery } from '../../../features/API/recommendationSlice';
-import { useSelector } from 'react-redux';
-import { selectQs } from '../../../features/slices/requiredSearchParamsSlice';
 import Section from '../../../components/Section/Section';
 import TrackList from '../../../components/TrackList/TrackList';
+import { useFetchRecommendations } from './useFetchRecommendations';
 
 
 export const useRenderRecommendations = () => {
-  const qs = useSelector(selectQs)
-  const { data, isError, error, isFetching } = useGetRecommendationsQuery(qs, { skip: qs === ""})
+  const { data, isError, error, isFetching } = useFetchRecommendations();
   return () => {
     let resultToRender;
     if (data && data.tracks.length > 0) resultToRender

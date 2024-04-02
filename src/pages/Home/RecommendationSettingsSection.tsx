@@ -3,31 +3,17 @@ import SearchBars from './SearchBars';
 import SettingsSearchDetail from './RecommendationCustomSettings';
 import { Alert, Box, Button, Tooltip, Typography } from '@mui/material';
 import { useCompleteSettings } from './hooks/useCompleteSettings';
-import { useGetRecommendationsQuery } from '../../features/API/recommendationSlice';
-import { selectQs } from '../../features/slices/requiredSearchParamsSlice';
-import { useSelector } from 'react-redux';
-import { IPlaylist, useCreatePlaylistMutation, useGetProfileQuery, useLazyGetProfileQuery } from '../../features/API/spotifyAdvancedApiSlice';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import { useSpotifyProfile } from '../../components/Login/hooks/useSpotifyProfile';
-
-
+import { useGeneratePlaylist } from './hooks/useGeneratePlaylist';
+import { useFetchRecommendations } from './hooks/useFetchRecommendations';
 
 const RecommendationSettingsSection = () => {
-  const handleFetchRecommndations = useCompleteSettings()
-  const qs = useSelector(selectQs)
-  console.log(qs)
-  
-  const { data } = useGetRecommendationsQuery(qs, { skip: qs === "" })
+  const handleGenerateQs = useCompleteSettings()
+
+  // recommendation query is invoked when a valid query string is generated
+  const { data } = useFetchRecommendations()
   const profile = useSpotifyProfile();
-  const [createPlaylist, { isSuccess }] = useCreatePlaylistMutation();
-  console.log(isSuccess)
-  const handleSaveAsPlaylist = async() => {
-    if (data && profile) {
-      // also I need to grab userId
-      await createPlaylist({ uris: data?.tracks.map(t => (t as any).uri), userId: profile?.id } as IPlaylist);
-      
-    }
-  }
+  const { handleSaveAsPlaylist, isSuccess } = useGeneratePlaylist(data, profile?.profile)
 
   // will make it dissappear after a certain time
   // should make it reusable in even the search input error
@@ -40,7 +26,6 @@ const RecommendationSettingsSection = () => {
   const SaveButton = (
     <Tooltip title={profile ? "Save recommendations to your account" : "Requires connection to Spotify account"} placement='top'>
       <Box>
-        {isSuccess && SavePlaylistNotification}
         <Button disabled={profile ? false : true} variant="contained" onClick={handleSaveAsPlaylist}>
         <Typography color="white">Save As Playlist</Typography>
       </Button>
@@ -53,11 +38,12 @@ const RecommendationSettingsSection = () => {
       <SettingsSearchDetail />
       <Box display="flex" >
         <Tooltip title="Get song recommendations" placement='top'>
-          <Button sx={{mr: 2}} variant="contained" onClick={handleFetchRecommndations}>
-            <Typography color="white">Get Recs!</Typography>
+          <Button sx={{mr: 2}} variant="contained" onClick={handleGenerateQs}>
+            <Typography color="white">Get Recommendations</Typography>
           </Button>
         </Tooltip>
         {data && SaveButton}
+        {isSuccess && SavePlaylistNotification}
       </Box>
     </Section>
   )

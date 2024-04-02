@@ -4,22 +4,24 @@ import { useRenderRecommendations } from './hooks/useRenderRecommendations';
 import Login from '../../components/Login/Login';
 import Logout from "../../components/Login/Logout";
 import { useSpotifyProfile } from "../../components/Login/hooks/useSpotifyProfile";
+import { isMobile } from 'react-device-detect'; 
 
 const Home = () => {
   const renderRecommendations = useRenderRecommendations();
-  const profile = useSpotifyProfile();
+  const user = useSpotifyProfile();
 
   return (
     <Container>
-      <Box sx={{pt: 3}}>
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box sx={{ pt: 3 }}>
+        <Box alignItems="center" display={isMobile ? "block" : "flex"} justifyContent="space-between">
           <Typography variant='h3'>GrooveGuru</Typography>
-          <Box>
-            {!profile ? <Login /> : <Logout username={profile.displayName} imgUrl={profile.images[0].url} />}
+          <Box sx={{ mb: 2 }}>
+            {!user ? <Login /> : <Logout username={user.profile.displayName} imgUrl={user.profile.images[0].url} />}
           </Box>
         </Box>
       <Typography variant='subtitle2' gutterBottom>Unleash the DJ in You with Personalized Recommendations powered by Spotify</Typography>
       </Box>
+      
       <SearchSection />
       {renderRecommendations()}
     </Container>

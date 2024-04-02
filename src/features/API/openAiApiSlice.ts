@@ -11,7 +11,7 @@ export const openAiApiSlice = createApi({
       query: (artists) => ({
         url: '/genres/find',
         method: 'POST',
-        body: artists, // Ensure 'artists' field is properly defined
+        body: artists,
       }),
 
     }),

@@ -5,6 +5,9 @@ import SearchTextArea from '../../components/SearchBar/SearchTextArea';
 import genreOptions from "../../data/genres.json"
 import { useDispatch } from 'react-redux';
 import { seedGenresUpdated } from '../../features/slices/requiredSearchParamsSlice';
+import Notification from '../../components/Notification/Notification';
+import { seedGenresErrorUpdated } from '../../features/slices/requiredSearchParamsErrorSlice';
+import NotificationPopup from '../../components/Notification/Notification';
 
 interface IGenreSearch {
   artists: string[];
@@ -27,13 +30,14 @@ const GenreSearch = ({ artists, error }: IGenreSearch) => {
   const handleInputChange = (event: React.SyntheticEvent<Element, Event>, newInputValue: string, reason: string) => {
     if (event.type !== "blur" && reason !== "reset" && newInputValue.trim() !== inputValue) {
       setInputValue(newInputValue)
-      
     }
   }
 
   return (
     <Box>
-      {error && <Alert severity="error">{ error }</Alert>}
+      {error &&
+        <NotificationPopup message={error} severity='error' onClose={() => dispatch(seedGenresErrorUpdated(""))} />
+      }
       <Autocomplete<string, true, false, true>
         multiple
         autoHighlight

@@ -6,6 +6,8 @@ import { generateQs } from '../../../features/utils/generateQs';
 import { useFetchChatCompletionsMutation } from '../../../features/API/openAiApiSlice';
 import { seedArtistsErrorUpdated, seedGenresErrorUpdated, seedTracksErrorUpdated } from '../../../features/slices/requiredSearchParamsErrorSlice';
 import { APIError } from 'openai/error';
+import { useLazyGetRecommendationsQuery } from '../../../features/API/spotifyBasicApiSlice';
+import { isQsValid } from '../../../features/utils/isQsValid';
 
 export const useCompleteSettings = () => {
   const dispatch = useDispatch()
@@ -14,6 +16,8 @@ export const useCompleteSettings = () => {
   const seedGenres = useSelector(selectSeedGenres)
   const customSettings = useSelector(selectAll);
   const [fetchChatCompletions] = useFetchChatCompletionsMutation();
+  const [trigger] = useLazyGetRecommendationsQuery();
+
   const discoverGenreTags= async () => {
     // use the mutation function to get the tags
     const res = await fetchChatCompletions(seedArtists.map(a => a.name));
@@ -22,6 +26,7 @@ export const useCompleteSettings = () => {
       // Extract and return the data
       dispatch(seedGenresUpdated(res.data));
       dispatch(seedGenresErrorUpdated(""));
+      return res.data
     } else {
       let message: string = ""
       if ('status' in res.error) {
@@ -43,18 +48,24 @@ export const useCompleteSettings = () => {
     dispatch(seedTracksErrorUpdated(trackUnselected ? "Need at least 1 track/song name!" : ""))
     dispatch(seedArtistsErrorUpdated(artistUnselected ? "Need at least 1 artist name!" : ""))
     if (trackUnselected || artistUnselected) return
-
-    if (seedGenres.length === 0) await discoverGenreTags() 
+    let tags: string[] = []
+    if (seedGenres.length === 0) {
+      const res = await discoverGenreTags()
+      tags = res ? res : [];
+    }
     else dispatch(seedGenresErrorUpdated(""))
-    console.log(seedGenres)
     const newQs = generateQs(
       seedTracks.map(t => t.id),
       seedArtists.map(a => a.id),
-      seedGenres,
+      tags.length
+        ? tags.slice(0, 1)
+        : seedGenres.slice(0, 1),
       customSettings
     )
-    console.log(newQs)
-    dispatch(qsUpdated(newQs));
+    if (tags) {
+      dispatch(qsUpdated(newQs));
+      if (newQs === "" || !isQsValid(newQs)) trigger(newQs);
+    }
   }
 
   return handleClick

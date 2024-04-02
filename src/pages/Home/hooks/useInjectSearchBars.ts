@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { allUpdated, seedArtistsUpdated, selectSeedArtists, selectSeedTracks } from '../../../features/slices/requiredSearchParamsSlice';
+
 import { ISearchResult } from '../../../features/types/ISearchResult';
+import { seedArtistsErrorUpdated, seedTracksErrorUpdated } from '../../../features/slices/requiredSearchParamsErrorSlice';
 
 export const useInjectSearchBars = () => {
   const seedArtists = useSelector(selectSeedArtists)
@@ -16,5 +18,12 @@ export const useInjectSearchBars = () => {
     dispatch(seedArtistsUpdated(valueArr));
   }
 
-  return { seedArtists, seedTracks, handleUpdateArtists, handleUpdateTracks }
+  const handleCloseTrackNotification = () => {
+    dispatch(seedTracksErrorUpdated(""))
+  }
+  const handleCloseArtistNotification = () => {
+    dispatch(seedArtistsErrorUpdated(""))
+  }
+
+  return { seedArtists, seedTracks, handleUpdateArtists, handleUpdateTracks, handleCloseTrackNotification, handleCloseArtistNotification }
 }
